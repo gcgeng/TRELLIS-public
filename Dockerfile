@@ -35,7 +35,7 @@ RUN source /root/.bashrc
 # This script should leverage the existing Python/Conda environment in the image.
 # For example, it might directly use 'pip install' or 'conda install'
 # assuming they are on the PATH and configured for the correct environment.
-RUN source ./setup-docker.sh --new-env --basic --xformers --flash-attn --diffoctreerast --spconv --mipgaussian --kaolin --nvdiffrast
+RUN source ./setup-docker.sh --new-env --basic --xformers --flash-attn --spconv --mipgaussian --kaolin --nvdiffrast
 
 # Example: Ensure your script installs Azure ML SDKs
 # RUN pip install azure-ai-ml azureml-mlflow
@@ -43,10 +43,7 @@ RUN source ./setup-docker.sh --new-env --basic --xformers --flash-attn --diffoct
 COPY configs /app/configs
 COPY extensions /app/extensions
 COPY extern /app/extern
-COPY gclib /app/gclib
 COPY train.py .
 COPY trellis /app/trellis
 
-COPY gclib/requirements.txt gclib_requirements.txt
-
-RUN . /opt/conda/etc/profile.d/conda.sh && conda activate trellis && pip install -r gclib_requirements.txt && pip install webdataset mosaicml-streaming fsspec s3fs tensorboard
+RUN . /opt/conda/etc/profile.d/conda.sh && conda activate trellis && pip install webdataset mosaicml-streaming fsspec s3fs tensorboard
